@@ -220,22 +220,28 @@ class BancoDados():
         finally:
             self.desconectar_bd()
                 
-loja = BancoDados("loja.db")
+                
+                
+if __name__ == "__main__":
+    loja = BancoDados("loja.db")
 
-# loja.criar_tabelas()
+    loja.criar_tabelas()
 
-# loja.inserir_dados_clientes(11122233344, "Ana Maria")
+    loja.inserir_dados_clientes(11122233344, "Ana Maria")
 
-# loja.inserir_dados_produto("Calça", 89.90)
+    loja.inserir_dados_produto("Calça", 89.90)
 
-# loja.inserir_venda(11122233344, 1 , 50)
+    loja.inserir_venda(11122233344, 1 , 50)
+    loja.inserir_venda(11122233344, 1 , 2)
+    loja.inserir_venda(11122233344, 1 , 10)
 
-loja.selecionar_venda(3)
-# loja.selecionar_venda(2)
-# loja.selecionar_venda(3)
+    loja.selecionar_venda(1)
 
-
-# loja.excluir_venda(1)
+    loja.excluir_venda(1)
+    
+    loja.atualizar_produto(1,100.00)
+    
+    loja.selecionar_venda(2)
 
 
 
