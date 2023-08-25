@@ -48,4 +48,26 @@ class BancoDados():
         print( f"Tabelas produtos, clientes e vendas criadas para  o banco de dados {self.nome_bd}")
         self.desconectar_bd()
         
-  
+        
+    def inserir_dados_clientes (self, cpf, nome_cliente):
+        self.conectar_bd()
+        self.cursor.execute(''' INSERT INTO clientes (id_cliente_cpf, nome_cliente)
+                                VALUES (?,?)''', #comando SQL
+                                (cpf, nome_cliente)) # passagem dos parâmetros recebidos pela função
+        print("inserção feita")
+        self.conexao.commit() # efetivando o comando
+        self.desconectar_bd() #fechando a conexão
+        
+    
+    def inserir_dados_produto (self, nome_produto, valor):
+        self.conectar_bd()
+        self.cursor.execute(''' INSERT INTO produtos (nome_produto, valor)              
+                            VALUES (?,?)''',
+                            (nome_produto, valor))
+        
+        self.conexao.commit() # efetivando o comando
+        self.desconectar_bd() #fechando a conexão
+        
+        
+loja = BancoDados("loja.db")
+loja.inserir_dados_clientes(11122233344, "Maria José")
