@@ -1,6 +1,5 @@
 import sqlite3
 
-
 #criação da Classe Database
 
 class BancoDados():
@@ -48,7 +47,7 @@ class BancoDados():
         print( f"Tabelas produtos, clientes e vendas criadas para  o banco de dados {self.nome_bd}")
         self.desconectar_bd()
         
-        
+    #método para inseir dados na tabela clientes    
     def inserir_dados_clientes (self, cpf, nome_cliente):
         try:
             self.conectar_bd()
@@ -63,6 +62,10 @@ class BancoDados():
         finally:
             self.desconectar_bd() #fechando a conexão
     
+    
+    
+    
+    #método para inserir dados na tabela produtos
     def inserir_dados_produto (self, nome_produto, valor):
         try:
             self.conectar_bd()
@@ -78,7 +81,13 @@ class BancoDados():
         finally:
             self.desconectar_bd() #fechando a conexão
     
-    def inserir_compra(self, cpf_cliente, id_produto, quantidade):
+    
+    
+    
+    
+    
+    #metodo para inserir dados na tabela vendas
+    def inserir_venda(self, cpf_cliente, id_produto, quantidade):
         try:
             self.conectar_bd()
             self.cursor.execute(''' INSERT INTO vendas (fk_cliente_cpf, fk_produto, quantidade)
@@ -91,6 +100,12 @@ class BancoDados():
         finally:
             self.desconectar_bd()
     
+    
+    
+    
+    
+    
+    #método para atualizar um cliente existentes. Atualiza apenas o nome, pois o CPF é a chave primária
     def atualizar_cliente(self, cpf, novo_nome_cliente):
         try:
             self.conectar_bd()
@@ -102,17 +117,24 @@ class BancoDados():
         finally:
             self.cursor.close()
     
-    def atualizar_produto(self, id, novo_nome_produto):
+    
+    
+    
+    #método para atualizar um produto existentes. Atualiza apenas o valor, pois o id é a chave primária
+    def atualizar_produto(self, id, novo_valor_produto):
         try:
             self.conectar_bd()
-            self.cursor.execute(''' UPDATE produtos SET  nome_produto = ? WHERE id_produto = ? ;''', (novo_nome_produto, id))
-            print (f"Produto {id} atualizado com sucesso para {novo_nome_produto}")
+            self.cursor.execute(''' UPDATE produtos SET valor = ? WHERE id_produto = ? ;''', ( novo_valor_produto, id))
+            print (f"Produto {id} atualizado com sucesso para valor: R$ {novo_valor_produto}")
             self.conexao.commit()
         except:
             print("erro ao atualizar o produto")
         finally:
             self.cursor.close()
-            
+    
+    
+    
+    #retorna como um print formatado todos os produtos presentes na tabela        
     def selecionar_todos_produtos(self):
         try:
             self.conectar_bd()
@@ -121,13 +143,15 @@ class BancoDados():
             for produto in lista_produtos :
                 print( f"ID: {produto[0]} ")
                 print( f"NOME: {produto[1]}")
-                print( f"VALOR: R$ {format(produto[2],'2.f')}")
+                print( f"VALOR: R$ {produto[2]:.2f}")
                 print("======================================")
         except:
             print("erro ao listar os produtos")
         finally:
             self.cursor.close() 
     
+    
+    #retorna como um print formatado apenas um produto, o id informado como parâmetro do método
     def selecionar_produto(self, id):
         try:
             self.conectar_bd()
@@ -136,13 +160,15 @@ class BancoDados():
             print ("======================================")
             print (f"ID : {produto[0][0]}")
             print (f"NOME : {produto[0][1]}")
-            print (f"PRECO : {produto[0][2]}")
+            print (f"PRECO : R$ {produto[0][2]:.2f}")
             print ("======================================")
         except:
             print(f"erro ao selecionar o produto de id {id}")
         finally:
             self.cursor.close()
-            
+    
+    
+    #retorna apenas uma venda, selecionada pelo identificador único       
     def selecionar_venda(self, id_venda):
         try:
             self.conectar_bd()
@@ -164,16 +190,19 @@ class BancoDados():
                 print(f"Cliente: {item[0]}")
                 print(f"CPF: {item[1]}")
                 print(f"Produto: {item[2]}")
-                print(f"SubTotal: R$ {format(item[3],'.2f')}")
+                print(f"SubTotal: R$ {item[3]:.2f}")
                 print(f"Quantidade: {item[4]} unidades")
-                print(f"Total: R$ {format(item[5],'.2f')}")
+                print(f"Total: R$ {item[5]:.2f}")
                 print("=========================")
 
         except:
-            print(f"Erro ao selecionar a venda de ID {id_venda}")
+            print(f"Erro ao mostrar detalhes da venda de ID {id_venda}")
         finally:
             self.desconectar_bd()
   
+  
+    
+    #exclui uma venda, a partir do seu id
     def excluir_venda (self, id_venda):
         try:
             self.conectar_bd()
@@ -187,14 +216,20 @@ class BancoDados():
             self.desconectar_bd()
                 
 loja = BancoDados("loja.db")
-# loja.inserir_dados_clientes(11122233344, "Maria José")
 
-# loja.atualizar_produto(1,"Calça")
+# loja.criar_tabelas()
 
-# loja.atualizar_cliente(11122233344, "Maria Joaquina")
+# loja.inserir_dados_clientes(11122233344, "Ana Maria")
 
-# loja.inserir_compra(11122233344,1,10)
+# loja.inserir_dados_produto("Calça", 89.90)
 
-loja.selecionar_venda(3)
+# loja.inserir_venda(11122233344, 1 , 10)
+
+loja.selecionar_venda(1)
+
+
+
+
+
 
 
