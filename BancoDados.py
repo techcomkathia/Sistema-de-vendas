@@ -50,24 +50,51 @@ class BancoDados():
         
         
     def inserir_dados_clientes (self, cpf, nome_cliente):
-        self.conectar_bd()
-        self.cursor.execute(''' INSERT INTO clientes (id_cliente_cpf, nome_cliente)
-                                VALUES (?,?)''', #comando SQL
-                                (cpf, nome_cliente)) # passagem dos parâmetros recebidos pela função
-        print("inserção feita")
-        self.conexao.commit() # efetivando o comando
-        self.desconectar_bd() #fechando a conexão
-        
+        try:
+            self.conectar_bd()
+            self.cursor.execute(''' INSERT INTO clientes (id_cliente_cpf, nome_cliente)
+                                    VALUES (?,?);''', #comando SQL
+                                    (cpf, nome_cliente)) # passagem dos parâmetros recebidos pela função
+            print(f"Cliente {nome_cliente} de CPF {cpf} inserido com sucesso")
+            self.conexao.commit() # efetivando o comando
+            
+        except: 
+            print ("Erro ao inserir cliente")
+        finally:
+            self.desconectar_bd() #fechando a conexão
     
     def inserir_dados_produto (self, nome_produto, valor):
-        self.conectar_bd()
-        self.cursor.execute(''' INSERT INTO produtos (nome_produto, valor)              
-                            VALUES (?,?)''',
-                            (nome_produto, valor))
+        try:
+            self.conectar_bd()
+            self.cursor.execute(''' INSERT INTO produtos (nome_produto, valor)              
+                                VALUES (?,?);''',
+                                (nome_produto, valor))
+            
+            self.conexao.commit() # efetivando o comando
+            
+        except:
+            print("erro ao inserir cliente")
+            
+        finally:
+            self.desconectar_bd() #fechando a conexão
+    
+    def inserir_compra(self, cpf_cliente, id_produto, quantidade):
+        try:
+            self.conectar_bd()
+            self.cursor.execute(''' INSERT INTO vendas (fk_cliente_cpf, fk_produto, quantidade)
+                                    VALUES (?,?,?);''', 
+                                    (cpf_cliente, id_produto, quantidade))
+            print("Compra registrada")
+        except:
+            print(" erro ao inserir compra na tabela de vendas")
+        finally:
+            self.desconectar_bd()
         
-        self.conexao.commit() # efetivando o comando
-        self.desconectar_bd() #fechando a conexão
         
         
 loja = BancoDados("loja.db")
 loja.inserir_dados_clientes(11122233344, "Maria José")
+
+loja.inserir_dados_produto("Camiseta",29.90)
+
+loja.inserir_compra(11122233344, 1, 10)
