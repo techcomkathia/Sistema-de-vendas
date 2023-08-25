@@ -21,6 +21,31 @@ class BancoDados():
         print (f"Banco {self.nome_bd} desconectado")
         
         
-loja = BancoDados("lojinha.bd")
-
-loja.conectar_bd()
+    #método criar tabela une os comandos sql para o objeto instanciado
+    def criar_tabelas(self):
+        self.conectar_bd() #abre uma conexão com o banco
+        
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS clientes(
+                                id_cliente_cpf INTERGER PRIMARY KEY, 
+                                nome_cliente VARCHAR(50) NOT NULL,
+                            );''')
+        
+        self.cursor.execute(''' CREATE TABLE IF NOT EXISTS produtos(
+                                id_produto INTERGER PRIMARY KEY AUTOINCREMENT,
+                                nome_produto VARCHAR(50),
+                                valor FLOAT);
+                                ''')
+        
+        self.cursor.execute(''' CREATE TABLE IF NOT EXISTS vendas(
+                                id_venda INTERGER PRIMARY KEY AUTOINCREMENT
+                                fk_cliente_cpf INTERGER NOT NULL,
+                                fk_produto INTERNGER NOT NULL
+                                quantidade INTERGER NOT NULL,
+                                FOREIGN KEY (fk_produto) REFERENCES produtos(id_produto),
+                                FOREIGN KEY (fk_cliente_cpf) REFERENCES clientes (id_cliente_cpf)
+                            );''')
+        self.conexao.commit()
+        print( f"Tabelas produtos, clientes e vendas criadas para  o banco de dados {self.nome_bd}")
+        self.desconectar_bd()
+        
+        
