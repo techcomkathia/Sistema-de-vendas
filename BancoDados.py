@@ -121,7 +121,7 @@ class BancoDados():
             for produto in lista_produtos :
                 print( f"ID: {produto[0]} ")
                 print( f"NOME: {produto[1]}")
-                print( f"VALOR: R$ {produto[2]}")
+                print( f"VALOR: R$ {format(produto[2],'2.f')}")
                 print("======================================")
         except:
             print("erro ao listar os produtos")
@@ -164,7 +164,7 @@ class BancoDados():
                 print(f"Cliente: {item[0]}")
                 print(f"CPF: {item[1]}")
                 print(f"Produto: {item[2]}")
-                print(f"SubTotal: R$ {item[3],3}")
+                print(f"SubTotal: R$ {format(item[3],'.2f')}")
                 print(f"Quantidade: {item[4]} unidades")
                 print(f"Total: R$ {format(item[5],'.2f')}")
                 print("=========================")
