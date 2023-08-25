@@ -1,4 +1,6 @@
 import sqlite3
+import os # módulo para acesso as funcionalidades do sistema operacional (importante para limpar o terminal entre as consultas)
+
 
 #criação da Classe Database
 
@@ -136,6 +138,7 @@ class BancoDados():
     
     #retorna como um print formatado todos os produtos presentes na tabela        
     def selecionar_todos_produtos(self):
+        os.system('cls') # limpa os dados exibidos no console para evitar a poluição
         try:
             self.conectar_bd()
             lista_produtos= self.cursor.execute(''' SELECT * FROM produtos ''').fetchall()
@@ -153,6 +156,7 @@ class BancoDados():
     
     #retorna como um print formatado apenas um produto, o id informado como parâmetro do método
     def selecionar_produto(self, id):
+        os.system('cls') # limpa os dados exibidos no console para evitar a poluição
         try:
             self.conectar_bd()
             produto= self.cursor.execute(''' SELECT * FROM produtos WHERE id_produto = ? ''', (id,)).fetchall()
@@ -170,6 +174,7 @@ class BancoDados():
     
     #retorna apenas uma venda, selecionada pelo identificador único       
     def selecionar_venda(self, id_venda):
+        os.system('cls') # limpa os dados exibidos no console para evitar a poluição
         try:
             self.conectar_bd()
             venda = self.cursor.execute('''
@@ -184,7 +189,7 @@ class BancoDados():
                 INNER JOIN clientes ON vendas.fk_cliente_cpf = clientes.id_cliente_cpf
                 WHERE id_venda = ?;
             ''', (id_venda,))
-
+            
             print("=== Detalhes da venda ===")
             for item in venda:
                 print(f"Cliente: {item[0]}")
@@ -199,14 +204,14 @@ class BancoDados():
             print(f"Erro ao mostrar detalhes da venda de ID {id_venda}")
         finally:
             self.desconectar_bd()
-  
-  
+    
     
     #exclui uma venda, a partir do seu id
     def excluir_venda (self, id_venda):
         try:
             self.conectar_bd()
-            self.cursor.execute('''DELETE FROM vendas WHERE id_venda = ?''', (id_venda))
+            #o parâmetro passado para o cursor precisa ser uma tupla, por isso o id_venda é seguido por uma vírgula
+            self.cursor.execute('''DELETE FROM vendas WHERE id_venda = ?''', (id_venda,))
             self.conexao.commit()
 
             print(f" Venda de id {id_venda} foi excluída com sucesso")
@@ -223,9 +228,14 @@ loja = BancoDados("loja.db")
 
 # loja.inserir_dados_produto("Calça", 89.90)
 
-# loja.inserir_venda(11122233344, 1 , 10)
+# loja.inserir_venda(11122233344, 1 , 50)
 
-loja.selecionar_venda(1)
+loja.selecionar_venda(3)
+# loja.selecionar_venda(2)
+# loja.selecionar_venda(3)
+
+
+# loja.excluir_venda(1)
 
 
 
