@@ -26,21 +26,21 @@ class BancoDados():
         self.conectar_bd() #abre uma conexão com o banco
         
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS clientes(
-                                id_cliente_cpf INTERGER PRIMARY KEY, 
-                                nome_cliente VARCHAR(50) NOT NULL,
+                                id_cliente_cpf INTEGER PRIMARY KEY, 
+                                nome_cliente VARCHAR(50) NOT NULL
                             );''')
         
         self.cursor.execute(''' CREATE TABLE IF NOT EXISTS produtos(
-                                id_produto INTERGER PRIMARY KEY AUTOINCREMENT,
+                                id_produto INTEGER PRIMARY KEY AUTOINCREMENT,
                                 nome_produto VARCHAR(50),
                                 valor FLOAT);
                                 ''')
         
         self.cursor.execute(''' CREATE TABLE IF NOT EXISTS vendas(
-                                id_venda INTERGER PRIMARY KEY AUTOINCREMENT
-                                fk_cliente_cpf INTERGER NOT NULL,
-                                fk_produto INTERNGER NOT NULL
-                                quantidade INTERGER NOT NULL,
+                                id_venda INTEGER PRIMARY KEY AUTOINCREMENT,
+                                fk_cliente_cpf INTEGER NOT NULL,
+                                fk_produto INTENGER NOT NULL,
+                                quantidade INTEGER NOT NULL,
                                 FOREIGN KEY (fk_produto) REFERENCES produtos(id_produto),
                                 FOREIGN KEY (fk_cliente_cpf) REFERENCES clientes (id_cliente_cpf)
                             );''')
@@ -48,4 +48,4 @@ class BancoDados():
         print( f"Tabelas produtos, clientes e vendas criadas para  o banco de dados {self.nome_bd}")
         self.desconectar_bd()
         
-        
+  
