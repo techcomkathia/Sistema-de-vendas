@@ -10,7 +10,7 @@ class BancoDados():
         self.conexao = None
         self.cursor = None
     #  .conn usado para manter uma conexão com o banco de dados
-    #  .corsor para executar consultas.
+    #  .cursor para executar consultas.
     
     def conectar_bd(self):
         self.conexao = sqlite3.connect(self.nome_bd)
